@@ -1,0 +1,324 @@
+/* Sidebar */
+.skin-black .sidebar a,
+.skin-black .treeview-menu>li>a{
+  color: #eaeaea;
+}
+.skin-black .main-sidebar{
+  background-color: #696969;
+}
+.skin-black .sidebar-menu>li.active>a, .skin-black .sidebar-menu>li:hover>a{
+  background: #8f8f8f;
+}
+.skin-black .sidebar-menu>li>.treeview-menu{
+  background-color: #7b7b7b;
+}
+.skin-black .sidebar-menu>li>.treeview-menu li :hover{
+  color: white;
+}
+
+textarea{
+  width: 100%;
+  height: 218px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  background-color: #f8f8f8;
+  resize: none;
+}
+
+.box{
+  margin-bottom: 15px;
+}
+
+.form-group{
+  margin: 0;
+}
+
+.btn{
+  float: left;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+
+.btn:last-child{
+  margin-bottom: 0;
+}
+
+.box-header{
+  white-space: nowrap;
+}
+.box-header .btn{
+  overflow: visible;
+}
+.box-header .box-title{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.handsontable td{
+  vertical-align: middle;
+  word-wrap: break-word;
+  cursor: cell;
+}
+
+.handsontable .htDimmed{
+  cursor: not-allowed;
+}
+
+.shiny-table{
+  overflow: hidden;
+}
+
+.shiny-notification-close{
+  cursor: pointer;
+  color: #200;
+  padding: 2px;
+}
+.shiny-notification-close:hover {
+  color: #755;
+}
+
+.action-button{
+  z-index: 10;
+}
+
+.info-box{
+  min-height: 60px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.info-box-icon{
+  height: 60px;
+  width: 60px;
+  font-size: 36px;
+  line-height: 60px;
+}
+
+.info-box-content{
+  margin-left: 60px;
+  height: 60px;
+}
+.info-box-number{
+  font-size: 12px;
+}
+
+.disabled:hover{
+  cursor: not-allowed;
+}
+
+/* messages */
+
+.shiny-notification{
+  z-index: 1050;
+  position: fixed;
+  top: calc(50% - 10px);
+  left: calc(50% - 100px);
+  width: 200px;
+  box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.5);
+  opacity: 0.95;
+  word-wrap: break-word;
+}
+
+.error-notification-overlay{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+  opacity: 0.8;
+  z-index: 1030;
+}
+
+.shiny-notification-error{
+  top: calc(50% - 100px);
+}
+.shiny-notification-error u{
+  font-weight: bold;
+}
+
+/* Explorer Tab */
+
+#shiny-tab-explorer .selectize-input{
+  max-height: 54px;
+}
+
+#shiny-tab-explorer .selectize-input:last-of-type{
+  height: 54px;
+}
+
+/* Decomp Tab */
+
+.icon-button{
+  color: #FFF;
+  position: relative;
+  top: 5px;
+  margin-bottom: 0;
+  padding: 5px;
+  float: right;
+  z-index: 10;
+  background: none;
+  border: none;
+  width: 30px;
+  text-overflow: clip;
+}
+.icon-button:hover{
+  background: rgba(0,0,0,.1);
+  color: #FFF;
+}
+
+#dl_model_reg{
+  position: absolute;
+  right: 35px;
+}
+
+#dl_decomp_mapping{
+  margin-right: 35px;
+  margin-left: 5px;
+}
+#dl_model_avm, #dl_model_dc{
+  position: absolute;
+  top: 5px;
+  right: 34px;
+}
+
+#decomp_row1 .col-sm-9 .box:first-of-type{
+  background: #3c8dbc;
+}
+#decomp_project_sct{
+  background: #3c8dbc;
+  font-size: 16px;
+  line-height: 39px;
+}
+#decomp_project_sct .selectize-control{
+  margin: 0;
+}
+#decomp_project_sct .selectize-input{
+  overflow: visible;
+}
+
+#decomp_row2 .nav-tabs{
+  background: #3c8dbc;
+  border-bottom-color: #3c8dbc;
+}
+#decomp_row2 .nav-tabs-custom{
+  border: 1px solid #3c8dbc;
+}
+#decomp_row2 .nav-tabs-custom .nav-tabs .header,
+  .nav-tabs-custom .nav-tabs li a{
+  color: white;
+}
+#decomp_row2 .tab-content{
+  padding: 0;
+}
+
+#decomp_varmap{
+  padding: 0;
+}
+#decomp_mapping{
+  font-size: 12px;
+}
+
+#decomp_project .form-group{
+  margin-bottom: 48px;
+}
+#decomp_models .form-group{
+  margin-bottom: 31px;
+}
+
+#decomp_model_txt{
+  padding-bottom: 5px;
+  background: #FFF;
+}
+
+#render_decomp_eqn, #render_decomp_dia{
+  width: 100%;
+  position: absolute;
+  top: 40px;
+  left: 0;
+}
+
+/* Loading animation */
+#loading{
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding-top: 250px;
+    width: 100%;
+    height: 100%;
+    z-index: 1030;
+    opacity: 0.8;
+    background: white;
+}
+
+.plotlybars {
+  padding: 0 10px;
+  vertical-align: bottom;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.plotlybars-wrapper {
+  width: 166px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.plotlybars-text {
+  color: #000;
+  font-family: 'Open Sans', verdana, arial, sans-serif;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.plotlybars-bar {
+  background-color: #447adb;
+  height: 100%;
+  width: 20px;
+  position: relative;
+  float: left;
+  margin-right: 1px;
+
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-name: plotlybars-bar;
+
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-name: plotlybars-bar;
+}
+
+.b1 { -webkit-animation-delay: -1.76s; animation-delay: -1.76s; }
+.b2 { -webkit-animation-delay: --1.52s; animation-delay: -1.52s; }
+.b3 { -webkit-animation-delay: -0.32s; animation-delay: -0.32s; }
+.b4 { -webkit-animation-delay: -0.8s; animation-delay: -0.8s; }
+.b5 { -webkit-animation-delay: -0.52s; animation-delay: -0.52s; }
+.b6 { -webkit-animation-delay: -1.34s; animation-delay: -1.34s; }
+.b7 { margin:0; -webkit-animation-delay: -1.78s; animation-delay: -1.78s; }
+
+@keyframes plotlybars-bar {
+  0% { top: 100%; }
+  50% { top: 0%; }
+  100% { top: 100%; }
+}
+@-webkit-keyframes plotlybars-bar {
+  0% { top: 100%; }
+  50% { top: 0%; }
+  100% { top: 100%; }
+}
