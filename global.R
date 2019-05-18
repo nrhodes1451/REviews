@@ -12,7 +12,7 @@ library(zoo)
 library(rhandsontable)
 library(tidyverse)
 
-toproper=function(x){
+toproper <- function(x){
   x %>% strsplit(" ") %>% lapply(function(str){
     lapply(str, function(s){
       if(nchar(s)<4 && tolower(s)!= "for" && tolower(s) != "kit" &&

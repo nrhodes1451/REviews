@@ -140,8 +140,9 @@ ev_model <- R6Class("ev_model",
         }
         else{
           # Regex match lags/decays/vars etc.
-          matches <- str_match_all(line, "[a-z0-9]+(_\\d{2})?(\\(-?\\d+\\))?")[[1]]
+          matches <- str_match_all(line, "ev_[a-z]+|[a-z]{2}[a-z0-9]+(_\\d{2})?(\\(-?\\d+\\))?")[[1]]
           matches[is.na(matches)] <- ""
+          matches %>% str_match_all("ev_")
 
           # Extract diminishing returns rate (if any)
           varmap$denominator <- str_match_all(line, "exp\\(.+\\/(\\d+(\\.\\d+)?)\\)")[[1]][2]
@@ -152,7 +153,7 @@ ev_model <- R6Class("ev_model",
             return(NULL)
           }
 
-          cmd_str <- strsplit(line,"[a-z0-9]+(_\\d{2})?(\\(-?\\d+\\))?")
+          cmd_str <- strsplit(line,"ev_[a-z]+|[a-z]{2}[a-z0-9]+(_\\d{2})?(\\(-?\\d+\\))?")
           parse_str <- cmd_str[[1]][1]
 
           for(x in 1:dim(matches)[1]) {

@@ -153,27 +153,9 @@ shinyServer(function(input, output, clientData, session) {
                     choices = str_remove_all(dir("models"), ".RDS")))
   # Decomp Event Handlers ----
 
-  # Load Model
-  observeEvent(input$btn_decomp_model_load, {
-    script <- decomp$models[[input$inp_decomp_model]]$model_script %>%
-      paste(collapse="\n")
-    updateTextInput(session, "txt_decomp_eqn", value=script)
-  })
-  # Save Model
-  observeEvent(input$btn_decomp_model_save, {
+  estimate_model <- function(script){
     # Parse model script
-    if(global$model$parse_model(input$txt_decomp_eqn, global$model_data)){
-      global$model %>% saveRDS("models/", paste0(model$kpi, ".RDS"))
-    }
-    else{
-      message <- global$model$message
-      if(!is.null(message)) output$error_message <- display_error(message)
-    }
-  })
-  # Estimate Model
-  observeEvent(input$btn_decomp_model_est, {
-    # Parse model script
-    if(global$model$parse_model(input$txt_decomp_eqn, global$model_data)){
+    if(global$model$parse_model(script, global$model_data)){
       global$model$run_regression()
       # Render Coeffs
       output$coeffs_table <- render_coeffs(global$model)
@@ -183,12 +165,37 @@ shinyServer(function(input, output, clientData, session) {
       output$render_decomp_avm <- render_decomp_avm(global$model)
       # Render Decomp
       output$render_decomp_dc <- render_decomp_dc(global$model)
+      print(T)
+    }
+    else{
+      print(F)
+      message <- global$model$message
+      if(!is.null(message)) output$error_message <- display_error(message)
+    }
+  }
+  # Load Model
+  observeEvent(input$btn_decomp_model_load, {
+    global$model <- readRDS(paste0("models/",
+                                   input$inp_decomp_model,
+                                   ".RDS"))
+    script <- global$model$model_script %>%
+      paste(collapse="\n")
+    updateTextInput(session, "txt_decomp_eqn", value=script)
+    estimate_model(script)
+  })
+  # Save Model
+  observeEvent(input$btn_decomp_model_save, {
+    # Parse model script
+    if(global$model$parse_model(input$txt_decomp_eqn, global$model_data)){
+      global$model %>% saveRDS(paste0("models/", global$model$kpi, ".RDS"))
     }
     else{
       message <- global$model$message
       if(!is.null(message)) output$error_message <- display_error(message)
     }
   })
+  # Estimate Model
+  observeEvent(input$btn_decomp_model_est, estimate_model(input$txt_decomp_eqn))
   # Coeff table ----
   render_coeffs <- function(model){
     df <- model$get_model()
