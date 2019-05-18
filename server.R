@@ -149,9 +149,8 @@ shinyServer(function(input, output, clientData, session) {
   # Modelling
 
   # Decomp ----
-  updateSelectInput(session, "inp_decomp_model",
-                    choices = names(global$model_data[-1]),
-                    selected = names(global$model_data[2]))
+  observe(updateSelectInput(session, "inp_decomp_model",
+                    choices = str_remove_all(dir("models"), ".RDS")))
   # Decomp Event Handlers ----
 
   # Load Model
@@ -162,38 +161,12 @@ shinyServer(function(input, output, clientData, session) {
   })
   # Save Model
   observeEvent(input$btn_decomp_model_save, {
-    # Check whether project is active
-    if(!decomp$active){
-      showNotification(ui=paste(decomp$project,
-                                "is archived. Please choose another project if you want to make changes."),
-                       type="warning")
-      return(NULL)
-    }
     # Parse model script
-    if(decomp$models[[input$inp_decomp_model]]$parse_model(input$txt_decomp_eqn,
-                                                           decomp$data_series$extended_data)){
-
-      old_mapping <- decomp$mapping
-
-      if(is.null(decomp$run_decomp(calculate=FALSE))){
-        output$error_message <- display_error(decomp$print_errors())
-      }
-      else{
-        # Update model timestamp
-        decomp$models[[input$inp_decomp_model]]$timestamp <-
-          format(now(), "%Y-%m-%d %H:%M:%S")
-
-        # Render variable mapping table
-        output$decomp_mapping = render_mapping(compare=old_mapping)
-
-        showNotification(ui=paste(input$inp_decomp_model,
-                                  "saved successfully!"),
-                         type="message",
-                         duration=2)
-      }
+    if(global$model$parse_model(input$txt_decomp_eqn, global$model_data)){
+      global$model %>% saveRDS("models/", paste0(model$kpi, ".RDS"))
     }
     else{
-      message <- decomp$models[[input$inp_decomp_model]]$message
+      message <- global$model$message
       if(!is.null(message)) output$error_message <- display_error(message)
     }
   })
