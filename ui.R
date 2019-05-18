@@ -52,7 +52,8 @@ body <- dashboardBody(
             solidHeader = TRUE,
             title=paste("Data Explorer"),
             selectInput("inp_exp_src", "Search:", NULL),
-            downloadButton('dl_explorer_cht', 'Download Data')
+            downloadButton('dl_explorer_cht', 'Download Data'),
+            plotlyOutput("render_explorer_hy", height="170px")
           )
         ),
         box(
@@ -65,16 +66,7 @@ body <- dashboardBody(
         )),
       fluidRow(id="explorer_row2",
         box(
-          width = 3,
-          height=400,
-          status = global_options$color,
-          solidHeader = TRUE,
-          title="Half-Yearly View",
-          plotlyOutput("render_explorer_h_vol", height="170px"),
-          plotlyOutput("render_explorer_h_ctc", height="170px")
-          ),
-        box(
-          width = 9,
+          width = 12,
           height=400,
           status = global_options$color,
           solidHeader = TRUE,
@@ -117,30 +109,30 @@ body <- dashboardBody(
         )
       ),
       # Modelling Charts ----
-      fluidRow(id="decomp_row2",
+      fluidRow(id = "decomp_row2",
         tabBox(
           title = "Model Data",
           width = 12,
           side="right",
-          # The id lets us use input$tabset1 on the server to find the current tab
           height = "250px",
           tabPanel("Model Coefficients",
                    rHandsontableOutput("coeffs_table")),
-          tabPanel("Tab2", "Tab content 2")
+          tabPanel("Model Diagnostics",
+                   rHandsontableOutput("diagnostics_table"))
         )
       ),
-      fluidRow(id="decomp_row3",
+      fluidRow(id = "decomp_row3",
         box(
           status = global_options$color,
           width = 12,
           solidHeader = TRUE,
-          title="Actual vs. Fitted",
-          collapsible= TRUE,
-          collapsed= TRUE,
+          title = "Actual vs. Fitted",
+          collapsible = TRUE,
+          collapsed = TRUE,
           # Regressor group download
-          downloadButton('dl_model_reg', class='icon-button', ''),
+          downloadButton('dl_model_reg', class = 'icon-button', ''),
           plotlyOutput("render_decomp_avm",
-                       height="340px")
+                       height = "340px")
         )
       ),
       fluidRow(id="decomp_row4",
@@ -149,23 +141,22 @@ body <- dashboardBody(
           width = 12,
           solidHeader = TRUE,
           title="Decomposition",
-          collapsible= TRUE,
-          collapsed= TRUE,
+          collapsible = TRUE,
+          collapsed = TRUE,
           # Decomp group download
-          downloadButton('dl_model_dc', class='icon-button', ''),
+          downloadButton('dl_model_dc', class = 'icon-button', ''),
           plotlyOutput("render_decomp_dc",
-                       height="340px")
+                       height = "340px")
         )
       )
     )
   )
 )
 
-# Dashboard Page ----
-
+# Run dashboard ----
 dashboardPage(
-  header=header,
-  sidebar=sidebar,
-  body= body,
+  header = header,
+  sidebar = sidebar,
+  body = body,
   title = paste("Modelling Dashboard")
 )

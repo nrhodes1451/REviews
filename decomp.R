@@ -370,6 +370,9 @@ ev_model <- R6Class("ev_model",
                      by.x="name", by.y="term", all=T, sort=F)
       model[is.na(model)] <- 1
       names(model) <- toproper(names(model))
+      model <- model %>% rename("t-statistic" = Statistic,
+                              "p-value" = `P.value`) %>%
+        select(-Model)
       return(model)
     },
 

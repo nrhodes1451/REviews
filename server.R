@@ -98,26 +98,60 @@ shinyServer(function(input, output, clientData, session) {
         )
     }
   })
+  # 12month plot
+  output$render_explorer_hy <- renderPlotly({
+    if(input$inp_exp_src == ''){
+      plotly_empty()
+    }
+    else{
+      vname <- input$inp_exp_src
+      chart_data <- global$model_data %>%
+        select(date, vname) %>%
+        filter(date >= global_options$charts$start_date) %>%
+        filter(date >= (max(global$model_data$date)-years(1))) %>%
+        mutate(date = paste0(year(date),
+                             "-H",
+                             as.integer(month(date)/7+1))) %>%
+        group_by(date) %>%
+        summarise_all(funs(sum)) %>%
+        ungroup
+      plot_ly(
+        x = chart_data[[1]],
+        y = chart_data[[2]],
+        name=vname,
+        type="bar",
+        marker = list(color = global_options$charts$colors$purple)) %>%
+        config(displayModeBar = F) %>%
+        layout(
+          margin=list(r=60),
+          xaxis = list(
+            title = "",
+            tickangle = -45,
+            tickfont = list(size=10)
+          ),
+          yaxis = list(
+            showgrid = FALSE,
+            showline= FALSE
+          ),
+          font=global_options$charts$font
+        )
+    }
+  })
 
   # Download
   output$dl_explorer_cht <- downloadHandler(
-    filename = "Data.csv",
+    filename = paste0("data.csv"),
     content = function(file) {
-      src_var <- input$inp_exp_src
-      cost_var <- gsub("_[a-z0-9]+$", "_ctc", src_var)
-      df <- 1
-      if(cost_var!=src_var && cost_var %in% names(dc$data)){
-        write_csv(dc$data[c("date", src_var, cost_var)],file)
-      }
-      else{
-        write_csv(dc$data[c("date", src_var)],file)
-      }
+      write_csv(global$model_data[c("date", input$inp_exp_src)],file)
     }
   )
 
   # Modelling
 
   # Decomp ----
+  updateSelectInput(session, "inp_decomp_model",
+                    choices = names(global$model_data[-1]),
+                    selected = names(global$model_data[2]))
   # Decomp Event Handlers ----
 
   # Load Model
@@ -170,6 +204,8 @@ shinyServer(function(input, output, clientData, session) {
       global$model$run_regression()
       # Render Coeffs
       output$coeffs_table <- render_coeffs(global$model)
+      # Render Diagnostics
+      output$diagnostics_table <- render_diagnostics(global$model)
       # Render Actual vs. Fitted
       output$render_decomp_avm <- render_decomp_avm(global$model)
       # Render Decomp
@@ -188,7 +224,8 @@ shinyServer(function(input, output, clientData, session) {
       rhandsontable(df,
         readOnly = TRUE,
         stretchH = "all",
-        renderAllRows = TRUE)
+        renderAllRows = TRUE,
+        rowHeaders = NULL)
     }))
 
     # # Highlight values that have changed in the table
@@ -252,6 +289,25 @@ shinyServer(function(input, output, clientData, session) {
         #         renderer = render_dropdown_changes) %>%
         # hot_col("IsNestedBaseGroup", type="checkbox", readOnly = !decomp$active,
         #         renderer = render_checkbox_changes)
+    }))
+  }
+  # Diagnostics table ----
+  render_diagnostics <- function(model){
+    if(is.null(model$get_diagnostics())){
+      return(renderRHandsontable({
+        rhandsontable(data.frame("No model loaded"))}))
+    }
+    df <- model$get_diagnostics() %>%
+      data.frame %>%
+      t %>%
+      as_tibble(rownames="metric") %>%
+      rename(value = DW)
+    return(renderRHandsontable({
+      rhandsontable(df,
+                    readOnly = TRUE,
+                    stretchH = "all",
+                    renderAllRows = TRUE,
+                    rowHeaders = NULL)
     }))
   }
   # Decomp Plots ----

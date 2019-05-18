@@ -153,6 +153,14 @@ textarea{
   height: 54px;
 }
 
+#render_explorer_hy{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
 /* Decomp Tab */
 
 .icon-button{
