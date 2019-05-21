@@ -28,7 +28,6 @@ toproper <- function(x){
 global_options <- list(
   color = 'primary',
   charts = list(
-    start_date = '2013-12-30',
     font = list(family = "sans-serif", size = 12),
     colors = list(
       purple='rgb(111,87,152)',
@@ -38,8 +37,11 @@ global_options <- list(
 )
 
 global <- list(
-  "model_data" = readRDS("data/demo.RDS")
+  "model_data" = read_csv("data/demo.csv"),
+  dataset = "demo"
 )
+global$start_date <- min(global$model_data$date)
+global$end_date <- max(global$model_data$date)
 
 # Decomp objects
 source("decomp.R")

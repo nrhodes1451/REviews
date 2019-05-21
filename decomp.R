@@ -428,7 +428,7 @@ ev_model <- R6Class("ev_model",
 
 global$model <- ev_model$new(
   "model",
-  min(global$model_data$date),
-  max(global$model_data$date),
+  global$start_date,
+  global$end_date,
   now()
 )

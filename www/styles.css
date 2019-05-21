@@ -222,6 +222,15 @@ textarea{
   .nav-tabs-custom .nav-tabs li a{
   color: white;
 }
+#decomp_row2 .nav-tabs-custom .nav-tabs .header,
+  .nav-tabs-custom .nav-tabs li a:hover{
+  font-weight: bold;
+  color: white;
+}
+#decomp_row2 .nav-tabs-custom .nav-tabs .header,
+  .nav-tabs-custom .nav-tabs li.active a:hover{
+  font-weight: normal;
+}
 #decomp_row2 .tab-content{
   padding: 0;
 }

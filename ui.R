@@ -7,8 +7,15 @@ sidebar <- dashboardSidebar(
   hr(),
 
   sidebarMenu(id="tabs",
-    menuItem("Explorer", tabName="explorer", icon=icon("search")),
-    menuItem("Modelling", tabName="modelling", icon=icon("bar-chart"))
+    # Input: Select a file ----
+    fileInput("file1", "Load CSV File",
+              multiple = FALSE,
+              accept = c("text/csv",
+                         "text/comma-separated-values,text/plain",
+                         ".csv")),
+    menuItem("Explorer", tabName = "explorer", icon = icon("search")),
+    menuItem("Modelling", tabName = "modelling", icon = icon("bar-chart"))
+
   )
 )
 
@@ -114,7 +121,6 @@ body <- dashboardBody(
           title = "Model Data",
           width = 12,
           side="right",
-          height = "250px",
           tabPanel("Model Coefficients",
                    rHandsontableOutput("coeffs_table")),
           tabPanel("Model Diagnostics",
