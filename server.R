@@ -35,6 +35,10 @@ shinyServer(function(input, output, clientData, session) {
       {
         df <- read_csv(input$file1$datapath)
 
+        if(class(df$date)=="character"){
+          df$date <- dmy(df$date)
+        }
+
         if(length(df)>2 && names(df)[1]=="date"){
           global$model_data <- df
           global$start_date <- min(df$date)
