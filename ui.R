@@ -48,6 +48,8 @@ body <- dashboardBody(
   ),
 
   tabItems(
+    # Error message
+    htmlOutput("error_message"),
     # Data Explorer ----
     tabItem(tabName = "explorer",
       fluidRow(id="explorer_row1",
@@ -83,8 +85,6 @@ body <- dashboardBody(
     ),
     # Modelling ----
     tabItem(tabName = "modelling",
-      # Error message
-      htmlOutput("error_message"),
       fluidRow(id="decomp_row1",
         column(width=3,
           # Model Selection

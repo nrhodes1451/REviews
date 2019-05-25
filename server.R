@@ -29,30 +29,52 @@ shinyServer(function(input, output, clientData, session) {
 
     req(input$file1)
 
-    # when reading semicolon separated files,
-    # having a comma separator causes `read.csv` to error
     tryCatch(
       {
-        df <- read_csv(input$file1$datapath)
-
-        if(class(df$date)=="character"){
-          df$date <- dmy(df$date)
+        if(str_sub(tolower(input$file1$datapath), -4,-1) != ".csv"){
+          output$error_message <- display_error("
+            <strong>Invalid filetype:</strong><br/>
+              Reverting to demo dataset.")
         }
+        else{
+          df <- read_csv(input$file1$datapath)
 
-        if(length(df)>2 && names(df)[1]=="date"){
-          global$model_data <- df
-          global$start_date <- min(df$date)
-          global$end_date <- max(df$date)
+          names(df)[1] <- tolower(names(df)[1])
 
-          global$model <- ev_model$new(
-            "model",
-            global$start_date,
-            global$end_date,
-            now()
-          )
+          date_error <- FALSE
+          if(names(df)[1]!="date"){
+            output$error_message <- display_error("
+            <strong>Error: date column not found</strong><br/>
+              Please provide a CSV file with dates in the first column.<br/>
+              Reverting to demo dataset.")
+          }
+          else if(class(df$date)=="character"){
+            df$date <- dmy(df$date)
+            if(sum(is.na(df$date))>0) date_error <- TRUE
+          }
+          if(date_error){
+            output$error_message <- display_error("
+            <strong>Invalid date format</strong><br/>
+              Dates should be in either of the following formats.<br>
+              <ul><li>'2019-01-31'</li><li>'31/01/2019'</li></ul><br/>
+              Reverting to demo dataset.")
+          }
+          else{
+            global$model_data <- df
+            global$start_date <- min(df$date)
+            global$end_date <- max(df$date)
+
+            global$model <- ev_model$new(
+              "model",
+              global$start_date,
+              global$end_date,
+              now()
+            )
+          }
         }
       },
       error = function(e) {
+        display_error(e)
       }
     )
 

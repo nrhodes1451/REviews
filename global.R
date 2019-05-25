@@ -37,7 +37,7 @@ global_options <- list(
 )
 
 global <- list(
-  "model_data" = read_csv("data/demo.csv"),
+  model_data = read_csv("data/demo.csv"),
   dataset = "demo"
 )
 global$start_date <- min(global$model_data$date)
