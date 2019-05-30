@@ -378,11 +378,7 @@ shinyServer(function(input, output, clientData, session) {
               ),
               font=global_options$charts$font,
               legend = list(
-                orientation = 'v',
-                xanchor = 'right',
-                yanchor = 'top',
-                y = 1,
-                x = 1,
+                orientation = 'h',
                 opacity=0.6)
             )
           return(cht)
@@ -421,11 +417,7 @@ shinyServer(function(input, output, clientData, session) {
             barmode = 'relative',
             font=global_options$charts$font,
             legend = list(
-              orientation = 'v',
-              xanchor = 'right',
-              yanchor = 'top',
-              y = 1,
-              x = 1,
+              orientation = 'h',
               opacity=0.6)
             )
           return(cht)
